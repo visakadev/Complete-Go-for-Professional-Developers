@@ -20,7 +20,7 @@ func main() {
 
 	app.Logger.Println("We are running out app")
 
-	http.HandleFunc("/health", HealthCheck)
+	http.HandleFunc("/health", app.HealthCheck)
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", port),
 		IdleTimeout:  time.Minute,
@@ -34,10 +34,4 @@ func main() {
 		app.Logger.Fatal(err)
 	}
 
-}
-
-// Handler
-// Response Handler
-func HealthCheck(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Status is available")
 }
