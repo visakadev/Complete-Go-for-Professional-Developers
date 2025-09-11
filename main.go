@@ -19,6 +19,8 @@ func main() {
 		panic(err)
 	}
 
+	defer app.DB.Close()
+
 	app.Logger.Println("We are running out app")
 
 	r := routes.SetupRoutes(app)
