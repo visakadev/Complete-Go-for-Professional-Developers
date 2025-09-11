@@ -36,3 +36,24 @@ type WorkoutStore interface {
 	CreateWorkout(*Workout) (*Workout, error)
 	GetWorkoutByID(id int64) (*Workout, error)
 }
+
+func (pg *PostgresWorkoutStore) CreateWorkout(workout *Workout) (*Workout, error) {
+	// sql error
+	tx, err := pg.db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback()
+
+	query :=
+		`INSERT INTO workouts (title, description, duration_minutes, calories_burned)
+		VALUES ($1, $2, $3, $4)
+		RETURNING id
+		`
+	err = tx.QueryRow(query, workout.Title, workout.Description, workout.DurationMinutes, workout.CaloriesBurned).Scan()
+
+	if err != nil {
+		return nil, err
+	}
+	return nil, err
+}
