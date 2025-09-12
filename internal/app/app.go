@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/visakadev/go/internal/app/store"
-	"github.com/visakadev/go/internal/routes/api"
+	"github.com/visakadev/go/internal/api"
+	"github.com/visakadev/go/internal/store"
 	"github.com/visakadev/go/migrations"
 )
 
@@ -32,9 +32,10 @@ func NewApplication() (*Application, error) {
 	logger := log.New(os.Stdout, "", log.Ldate/log.Ltime)
 
 	// Stores
+	workoutStore := store.NewPostgresWorkoutStore(pgDB)
 
 	// Handlers
-	workoutHandler := api.NewWorkoutHandler()
+	workoutHandler := api.NewWorkoutHandler(workoutStore)
 
 	app := &Application{
 		Logger:         logger,

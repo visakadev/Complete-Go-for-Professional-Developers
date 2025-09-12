@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/visakadev/go/internal/app/store"
+	"github.com/visakadev/go/internal/store"
 )
 
 type WorkoutHandler struct {
