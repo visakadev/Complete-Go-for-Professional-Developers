@@ -7,6 +7,8 @@ import (
 	"testing"
 
 	_ "github.com/jackc/pgx/v5/stdlib" // Use 'stdlib' for database/sql compatibility
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func setupTestDB(t *testing.T) *sql.DB {
@@ -21,7 +23,7 @@ func setupTestDB(t *testing.T) *sql.DB {
 	if err != nil {
 		t.Fatalf("Migration test db: %v", err)
 	}
-	_, err = db.Exec(`TRUNCATE workouts, workout_entry CASCADE`)
+	_, err = db.Exec(`TRUNCATE workouts, workout_entries CASCADE`)
 	if err != nil {
 		t.Fatalf("truncate test db error: %v", err)
 	}
@@ -74,14 +76,14 @@ func TestCreateWorkout(t *testing.T) {
 						ExerciseName: "Plank",
 						Sets:         3,
 						Reps:         IntPtr(60),
-						Notes:        "warm up properly",
+						Notes:        "random",
 						OrderIndex:   1,
 					},
 					{
 						ExerciseName:    "Squats",
 						Sets:            4,
 						Reps:            IntPtr(12),
-						Notes:           "warm up properly",
+						Notes:           "notes",
 						DurationSeconds: IntPtr(185.0),
 						OrderIndex:      2,
 					},
@@ -93,18 +95,43 @@ func TestCreateWorkout(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		https: //frontendmasters.com/courses/complete-go/testing-createworkout-errors/
+			createWorkout, err := store.CreateWorkout(tt.workout)
+			if tt.wantErr {
+				assert.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			assert.Equal(t, tt.workout.Title, createWorkout.Title)
+			assert.Equal(t, tt.workout.Description, createWorkout.Description)
+			assert.Equal(t, len(tt.workout.Entries), len(createWorkout.Entries))
+
+			retrieve, err := store.GetWorkoutByID(int64(createWorkout.ID))
+			require.NoError(t, err)
+			assert.Equal(t, createWorkout.Title, retrieve.Title)
+			assert.Equal(t, createWorkout.Description, retrieve.Description)
+			assert.Equal(t, len(createWorkout.Entries), len(retrieve.Entries))
+
+			// for i, entry := range createWorkout.Entries {
+			// 	assert.Equal(t, entry.ExerciseName, retrieve.Entries[i].ExerciseName)
+			// 	assert.Equal(t, entry.Sets, retrieve.Entries[i].Sets)
+			// 	assert.Equal(t, entry.Reps, retrieve.Entries[i].Reps)
+			// 	assert.Equal(t, entry.Weight, retrieve.Entries[i].Weight)
+			// 	assert.Equal(t, entry.Notes, retrieve.Entries[i].Notes)
+			// 	assert.Equal(t, entry.OrderIndex, retrieve.Entries[i].OrderIndex)
+			// }
+			for i := range createWorkout.Entries {
+				assert.Equal(t, tt.workout.Entries[i].ExerciseName, retrieve.Entries[i].ExerciseName)
+				assert.Equal(t, tt.workout.Entries[i].ExerciseName, retrieve.Entries[i].ExerciseName)
+				assert.Equal(t, tt.workout.Entries[i].Sets, retrieve.Entries[i].Sets)
+				assert.Equal(t, tt.workout.Entries[i].Reps, retrieve.Entries[i].Reps)
+				assert.Equal(t, tt.workout.Entries[i].Weight, retrieve.Entries[i].Weight)
+				assert.Equal(t, tt.workout.Entries[i].Notes, retrieve.Entries[i].Notes)
+				assert.Equal(t, tt.workout.Entries[i].OrderIndex, retrieve.Entries[i].OrderIndex)
+			}
+
 		})
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			err := store.Create(tt.workout)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
 }
 
 func IntPtr(i int) *int {

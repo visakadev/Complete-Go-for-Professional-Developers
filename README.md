@@ -18,3 +18,7 @@ psql -U postgres -h localhost -p 5432
 > - On macOS: `brew install postgresql`
 > - On Ubuntu: `sudo apt-get install postgresql-client`
 > - On Windows: Download from https://www.postgresql.org/download/
+
+Test:
+ls cd store
+go test .
