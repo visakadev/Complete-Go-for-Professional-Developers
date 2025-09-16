@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -12,11 +13,13 @@ import (
 
 type WorkoutHandler struct {
 	workoutStore store.WorkoutStore
+	logger       *log.Logger
 }
 
-func NewWorkoutHandler(workoutStore store.WorkoutStore) *WorkoutHandler {
+func NewWorkoutHandler(workoutStore store.WorkoutStore, logger *log.Logger) *WorkoutHandler {
 	return &WorkoutHandler{
 		workoutStore: workoutStore,
+		logger:       logger,
 	}
 }
 
