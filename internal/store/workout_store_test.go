@@ -93,6 +93,12 @@ func TestCreateWorkout(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+		https: //frontendmasters.com/courses/complete-go/testing-createworkout-errors/
+		})
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
 			err := store.Create(tt.workout)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
