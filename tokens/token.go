@@ -20,6 +20,7 @@ const (
 )
 
 func GenerateToken(userID int, ttl time.Duration, scope string) (*Token, error) {
+
 	token := &Token{
 		UserID: userID,
 		Expiry: time.Now().Add(ttl),
