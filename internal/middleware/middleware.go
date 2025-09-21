@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/visakadev/go/internal/store"
+	"github.com/visakadev/go/internal/tokens"
 	"github.com/visakadev/go/internal/utils"
-	"github.com/visakadev/go/tokens"
 )
 
 type UserMiddleware struct {

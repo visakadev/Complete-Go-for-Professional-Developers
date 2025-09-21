@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/visakadev/go/tokens"
+	"github.com/visakadev/go/internal/tokens"
 )
 
 type PostgresTokenStore struct {

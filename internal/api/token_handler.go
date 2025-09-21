@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/visakadev/go/internal/store"
+	"github.com/visakadev/go/internal/tokens"
 	"github.com/visakadev/go/internal/utils"
-	"github.com/visakadev/go/tokens"
 )
 
 type TokenHandler struct {
