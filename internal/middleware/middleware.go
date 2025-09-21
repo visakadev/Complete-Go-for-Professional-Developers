@@ -54,7 +54,7 @@ func (um *UserMiddleware) Authenticate(next http.Handler) http.Handler {
 			utils.WriteJSON(w, http.StatusUnauthorized, utils.Envelop{"error": "invalid token"})
 			return
 		}
-		if user != nil {
+		if user == nil {
 			utils.WriteJSON(w, http.StatusUnauthorized, utils.Envelop{"error": "token expired or invalid"})
 			return
 		}
