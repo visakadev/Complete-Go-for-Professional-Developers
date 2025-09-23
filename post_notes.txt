@@ -157,8 +157,8 @@ curl -X POST http://localhost:8080/tokens/authentication \
 curl -X POST "http://localhost:8080/users" \
      -H "Content-Type: application/json" \
      -d '{
-          "username": "melkey",
-          "email": "melkey@example.com",
+          "username": "devi",
+          "email": "devi@example.com",
           "password": "SecureP@ssword123",
           "bio": "Fitness enthusiast and software developer"
         }'
@@ -171,7 +171,7 @@ curl -X POST "http://localhost:8080/tokens/authentication" \
         }'
 
 curl -X POST "http://localhost:8080/workouts" \
-     -H "Authorization: Bearer PFLS22CR5HVMXASY3FFD5ZQ5MJIMLXDBWP33QYKGIDNLE5I7DIBA" \
+     -H "Authorization: Bearer U73L4BLX5T5RQUWEBCOGIR65B3Z5KXVOBR24BQ4RFXZ56VLOZDMQ" \
      -H "Content-Type: application/json" \
      -d '{
           "title": "Morning Cardio",
@@ -191,8 +191,8 @@ curl -X POST "http://localhost:8080/workouts" \
         }'
 
 
-curl -X PUT "http://localhost:8080/workouts/6" \
-     -H "Authorization: Bearer M6BOKTWSQJL74GJJO5OIOMOG3V63MYRIKLUBZ6ILEUQUPCN7472Q" \
+curl -X PUT "http://localhost:8080/workouts/1" \
+     -H "Authorization: Bearer U73L4BLX5T5RQUWEBCOGIR65B3Z5KXVOBR24BQ4RFXZ56VLOZDMQ" \
      -H "Content-Type: application/json" \
      -d '{
           "title": "Updated Cardio",
